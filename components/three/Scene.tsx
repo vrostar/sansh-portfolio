@@ -2,14 +2,13 @@
 
 import { Canvas } from "@react-three/fiber"
 import Background from "./Background"
+import StarsWrapper from "./StarsWrapper"
 
 export default function Scene() {
   return (
-    <Canvas
-    camera={{ position: [0, 0, 5], fov: 60 }}
-    style={{ width: "100vw", height: "100vh" }}
-    >
-        <Background />
+    <Canvas camera={{ position: [0, 0, 6], fov: 90 }}>
+      <Background />
+      <StarsWrapper />
     </Canvas>
   )
 }

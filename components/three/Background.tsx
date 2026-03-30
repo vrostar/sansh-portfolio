@@ -10,16 +10,21 @@ export default function Background() {
   const scrollRef = useScrollProgress()
 
   useFrame((state) => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime
+    if (!materialRef.current) return
 
-      materialRef.current.uniforms.uResolution.value.set(
-        state.size.width,
-        state.size.height
-      )
+    materialRef.current.uniforms.uTime.value = state.clock.elapsedTime
 
-    materialRef.current.uniforms.uScroll.value = scrollRef.current
-    }
+    materialRef.current.uniforms.uResolution.value.set(
+      state.size.width,
+      state.size.height
+    )
+
+    const raw = scrollRef.current
+
+    // make dark transition happen in first ~15% of scroll
+    const fastScroll = Math.min(raw * 3, 1)
+
+    materialRef.current.uniforms.uScroll.value = fastScroll
   })
 
   return (
@@ -108,11 +113,12 @@ void main(){
   warmColor = mix(warmColor, vec3(0.1), mix2 * 0.7);
 
   // scroll transition
-  vec3 color = mix(warmColor, darkSpace, uScroll);
+  float darkBoost = pow(uScroll, 1.5);
+  vec3 color = mix(warmColor, darkSpace, darkBoost);
 
-  // stars appear as you scroll
-  float stars = step(0.995, random(uv * 200.0 + uTime));
-  color += stars * uScroll;
+  // // stars appear as you scroll
+  // float stars = step(0.999, random(uv * 200.0 + uTime));
+  // color += stars * uScroll;
 
   // grain
   float grain = random(uv + t);

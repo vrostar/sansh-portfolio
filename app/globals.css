@@ -12,6 +12,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@font-face {
+  font-family: "AvantGarde";
+  src: url("/fonts/avant-garde.ttf") format("truetype");
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,10 +24,13 @@
   }
 }
 
+.char {
+  filter: blur(10px);
+}
+
 body {
   margin: 0;
-  min-height: 200vh;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "AvantGarde", sans-serif;
 }
